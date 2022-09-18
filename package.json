@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./",
     "prepare": "husky install",
-    "mock": "json-server __json_server_mock__/db.json --watch"
+    "mock": "json-server __json_server_mock__/db.json --watch --middlewares ./__json_server_mock__/middleware.js"
   },
   "lint-staged": {
     "*.{js,jsx,tsx,ts}": [

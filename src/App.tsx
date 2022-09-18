@@ -1,9 +1,11 @@
 import ProjectList from '@/screens/project-list'
+import LoginScreen from './screens/login'
 
 function App() {
   return (
     <div>
-      <ProjectList />
+      {/* <ProjectList /> */}
+      <LoginScreen />
     </div>
   )
 }
