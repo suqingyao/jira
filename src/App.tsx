@@ -1,7 +1,11 @@
-import React from 'react'
+import ProjectList from '@/screens/project-list'
 
 function App() {
-  return <div className="App">hello</div>
+  return (
+    <div>
+      <ProjectList />
+    </div>
+  )
 }
 
 export default App
