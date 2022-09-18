@@ -31,7 +31,7 @@ export const useMount = (callback: () => void) => {
 }
 
 export const debounce = (func: () => void, wait = 500, immediate = false) => {
-  let timer: any
+  let timer: NodeJS.Timeout
 
   return () => {
     if (immediate) {
@@ -48,7 +48,7 @@ export const debounce = (func: () => void, wait = 500, immediate = false) => {
   }
 }
 
-export const useDebounce = (value: unknown, wait?: number) => {
+export const useDebounce = <T>(value: T, wait?: number) => {
   const [debounceValue, setDebounceValue] = useState(value)
 
   useEffect(() => {
