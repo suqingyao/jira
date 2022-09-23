@@ -10,6 +10,14 @@ export default defineConfig({
       '@': resolve(__dirname, './', 'src')
     }
   },
+  css: {
+    preprocessorOptions: {
+      less: {
+        modifyVars: { '@primary-color': 'rgb(0,82,240)', '@font-size': '16px' },
+        javascriptEnabled: true
+      }
+    }
+  },
   plugins: [
     react(),
     vitePluginEslint({
