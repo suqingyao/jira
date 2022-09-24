@@ -7,7 +7,7 @@ import styled from '@emotion/styled'
 import { Button, Card, Divider } from 'antd'
 import { useState } from 'react'
 
-export const UnauthenticatedApp = () => {
+const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
 
   return (
@@ -29,6 +29,8 @@ export const UnauthenticatedApp = () => {
     </Container>
   )
 }
+
+export default UnauthenticatedApp
 
 export const LongButton = styled(Button)`
   width: 100%;

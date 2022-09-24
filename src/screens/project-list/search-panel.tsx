@@ -26,6 +26,8 @@ const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
           value={param.name}
           onChange={evt => setParam({ ...param, name: evt.target.value })}
         />
+      </Form.Item>
+      <Form.Item>
         <Select
           value={param.personId}
           onChange={value => setParam({ ...param, personId: value })}

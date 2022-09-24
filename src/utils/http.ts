@@ -33,7 +33,7 @@ export const http = async (
     }
     const data = await response.json()
     if (response.ok) {
-      return data
+      return Promise.resolve(data)
     } else {
       return Promise.reject(data)
     }

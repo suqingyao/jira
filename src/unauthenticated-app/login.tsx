@@ -32,10 +32,10 @@ const LoginScreen = () => {
   return (
     <Form onFinish={handleSubmit}>
       <Form.Item name={'username'} rules={formRules.username}>
-        <Input placeholder="用户名" type="text" />
+        <Input placeholder="用户名" type="text" allowClear />
       </Form.Item>
       <Form.Item name={'password'} rules={formRules.password}>
-        <Input placeholder="密码" type="password" />
+        <Input placeholder="密码" type="password" allowClear />
       </Form.Item>
       <Form.Item>
         <LongButton type="primary" htmlType="submit">

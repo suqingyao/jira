@@ -19,11 +19,13 @@ const List = ({ list, users }: ListProps) => {
     <Table
       columns={[
         {
+          key: 'name',
           title: '名称',
           dataIndex: 'name',
           sorter: (a, b) => a.name.localeCompare(b.name)
         },
         {
+          key: 'personId',
           title: '负责人',
           render(value, project) {
             return (
