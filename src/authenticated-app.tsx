@@ -3,19 +3,34 @@ import { Row } from './components/lib'
 
 import { useAuth } from './context/auth-context'
 import ProjectListScreen from './screens/project-list'
+// ! 将logo作为react组件使用
+// import { ReactComponent as SoftwareLogo } from '@/assets/software-logo.svg'
+import SoftwareLogo from '@/assets/software-logo.svg'
+import { Dropdown, Menu } from 'antd'
 
 function AuthenticatedApp() {
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
   return (
     <Container>
       <Header between={true}>
         <HeaderLeft gap={true}>
-          <h3>LOGO</h3>
+          {/* <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} /> */}
+          <img src={SoftwareLogo} alt="Logo" width={'180rem'} />
           <h3>项目</h3>
           <h3>用户</h3>
         </HeaderLeft>
         <HeaderRight>
-          <button onClick={logout}>登出</button>
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key={'logout'}>
+                  <a onClick={logout}>登出</a>
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <a onClick={e => e.preventDefault()}>hi,{user.name}</a>
+          </Dropdown>
         </HeaderRight>
       </Header>
       <Main>
@@ -27,28 +42,21 @@ function AuthenticatedApp() {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 6rem 1fr 6rem;
-  grid-template-columns: 20rem 1fr 20rem;
-  grid-template-areas:
-    'header header header'
-    'nav main aside'
-    'footer footer footer';
+  grid-template-rows: 6rem 1fr;
   height: 100vh;
-  grid-gap: 10rem;
 `
 
 const Header = styled(Row)`
-  grid-area: header;
+  padding: 3.2rem;
+  box-shadow: 0, 0, 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 `
 
-const HeaderLeft = styled(Row)`
-  display: flex;
-  align-items: center;
-`
+const HeaderLeft = styled(Row)``
 
 const HeaderRight = styled.div``
 
 const Main = styled.main`
-  grid-area: main;
+  height: calc(100vh -6rem);
 `
 export default AuthenticatedApp
