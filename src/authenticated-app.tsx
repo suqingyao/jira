@@ -4,12 +4,15 @@ import styled from '@emotion/styled'
 import { Button, Dropdown, Menu } from 'antd'
 import { Row } from './components/lib'
 import { useAuth } from './context/auth-context'
+import { useDocumentTitle } from './utils'
 
 // ! 将logo作为react组件使用
 // import { ReactComponent as SoftwareLogo } from '@/assets/software-logo.svg'
 
 function AuthenticatedApp() {
   const { logout, user } = useAuth()
+
+  useDocumentTitle('项目任务列表')
 
   const menu = (
     <Menu
@@ -55,8 +58,8 @@ const Container = styled.div`
 
 const Header = styled(Row)`
   padding: 3.2rem;
-  box-shadow: 0, 0, 5px rgba(0, 0, 0, 0.1);
   z-index: 1;
+  box-shadow: inset 0, 0, 5px rgba(0, 0, 0, 0.1);
 `
 
 const HeaderLeft = styled(Row)``

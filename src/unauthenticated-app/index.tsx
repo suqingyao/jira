@@ -7,10 +7,13 @@ import styled from '@emotion/styled'
 import { Button, Card, Divider } from 'antd'
 import { useState } from 'react'
 import { Typography } from 'antd'
+import { useDocumentTitle } from '@/utils'
 
 const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+
+  useDocumentTitle('登录注册')
 
   return (
     <Container>

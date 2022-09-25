@@ -82,3 +82,19 @@ export const useArray = <T>(initialArray: T[]) => {
     }
   }
 }
+
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+  const originTitle = document.title
+
+  useEffect(() => {
+    document.title = title
+  }, [title])
+
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        document.title = originTitle
+      }
+    }
+  }, [])
+}
