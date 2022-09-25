@@ -8,11 +8,9 @@ function App() {
   const { user } = useAuth()
 
   return (
-    <>
-      <ErrorBoundary fallbackRender={FullPageErrorFallback}>
-        {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
-      </ErrorBoundary>
-    </>
+    <ErrorBoundary fallbackRender={FullPageErrorFallback}>
+      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+    </ErrorBoundary>
   )
 }
 

@@ -1,19 +1,19 @@
-import { useDebounce } from '@/utils'
-import { useUrlQueryParam } from '@/utils/url'
+import { useDebounce, useDocumentTitle } from '@/utils'
 import { useProjects } from '@/utils/useProjects'
-import { useUser } from '@/utils/useUser'
+import { useUsers } from '@/utils/user'
 import styled from '@emotion/styled'
 import { Typography } from 'antd'
 import List from './list'
 import SearchPanel from './search-panel'
+import { useProjectsSearchParams } from './util'
 
 const ProjectListScreen = () => {
-  const [param, setParam] = useUrlQueryParam(['name', 'personId'])
-  const debouncedParam = useDebounce(param, 500)
+  useDocumentTitle('任务列表', false)
+  const [param, setParam] = useProjectsSearchParams()
 
-  const { isLoading, error, data: list } = useProjects(debouncedParam)
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 500))
 
-  const { data: users } = useUser()
+  const { data: users } = useUsers()
 
   return (
     <Container>

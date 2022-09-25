@@ -1,6 +1,6 @@
-import { useAuth } from './../context/auth-context'
-import qs from 'qs'
 import * as auth from '@/auth-provider'
+import qs from 'qs'
+import { useAuth } from './../context/auth-context'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -23,7 +23,9 @@ export const http = async (
   }
 
   if (config.method.toLocaleUpperCase() === 'GET') {
-    endpoint += `?${qs.stringify(data)}`
+    console.log(data)
+
+    endpoint += `?${decodeURIComponent(qs.stringify(data))}`
   }
   return window.fetch(`${API_URL}/${endpoint}`, config).then(async response => {
     if (response.status === 401) {

@@ -1,16 +1,16 @@
-import { User } from './search-panel'
-import { Table, TableProps, Button } from 'antd'
+import { Table, TableProps } from 'antd'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
+import { User } from './search-panel'
 
 interface ListProps extends TableProps<Project> {
   users: User[]
 }
 
 export interface Project {
-  id: string
+  id: number
   name: string
-  personId: string
+  personId: number
   pin: string
   organization: string
   created: number
