@@ -1,15 +1,30 @@
-import styled from '@emotion/styled'
-import { Row } from './components/lib'
-
-import { useAuth } from './context/auth-context'
 import ProjectListScreen from './screens/project-list'
+import SoftwareLogo from '@/assets/software-logo.svg'
+import styled from '@emotion/styled'
+import { Button, Dropdown, Menu } from 'antd'
+import { Row } from './components/lib'
+import { useAuth } from './context/auth-context'
+
 // ! 将logo作为react组件使用
 // import { ReactComponent as SoftwareLogo } from '@/assets/software-logo.svg'
-import SoftwareLogo from '@/assets/software-logo.svg'
-import { Dropdown, Menu } from 'antd'
 
 function AuthenticatedApp() {
   const { logout, user } = useAuth()
+
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: '1',
+          label: (
+            <Button type={'link'} onClick={logout}>
+              登出
+            </Button>
+          )
+        }
+      ]}
+    ></Menu>
+  )
   return (
     <Container>
       <Header between={true}>
@@ -20,16 +35,8 @@ function AuthenticatedApp() {
           <h3>用户</h3>
         </HeaderLeft>
         <HeaderRight>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key={'logout'}>
-                  <a onClick={logout}>登出</a>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <a onClick={e => e.preventDefault()}>hi,{user.name}</a>
+          <Dropdown overlay={menu}>
+            <Button type={'text'}>hi,{user.name}</Button>
           </Dropdown>
         </HeaderRight>
       </Header>

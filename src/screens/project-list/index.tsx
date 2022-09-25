@@ -1,41 +1,44 @@
 import List from './list'
 import SearchPanel from './search-panel'
-import { cleanObject, useDebounce, useMount } from '@/utils'
-import { useEffect, useState } from 'react'
-import { useHttp } from '@/utils/http'
 import styled from '@emotion/styled'
-
-const API_URL = import.meta.env.VITE_API_URL
+import { useDebounce, useMount } from '@/utils'
+import { Typography } from 'antd'
+import { useState } from 'react'
+import { useHttp } from '@/utils/http'
+import { useProjects } from '@/utils/useProjects'
+import { useUser } from '@/utils/useUser'
 
 const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
     personId: ''
   })
-  const [list, setList] = useState([])
-  const [users, setUsers] = useState([])
+  // const [users, setUsers] = useState([])
   const debouncedParam = useDebounce(param, 500)
-  const client = useHttp()
+  // const client = useHttp()
 
-  useEffect(() => {
-    client('projects', { data: cleanObject(debouncedParam) }).then(setList)
-  }, [debouncedParam])
+  // const { run, isLoading, error, data: list } = useAsync<Project[]>()
 
-  useEffect(() => {
-    fetch(`${API_URL}/users`).then(async response => {
-      if (response.ok) {
-        setUsers(await response.json())
-      }
-    })
-  }, [])
-  useMount(() => {
-    client('users').then(setUsers)
-  })
+  // useEffect(() => {
+  //   run(client('projects', { data: cleanObject(debouncedParam) }))
+  // }, [debouncedParam])
+
+  const { isLoading, error, data: list } = useProjects(debouncedParam)
+
+  // useMount(() => {
+  //   client('users').then(setUsers)
+  // })
+
+  const { data: users } = useUser()
+
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel param={param} setParam={setParam} users={users} />
-      <List list={list} users={users} />
+      <SearchPanel param={param} setParam={setParam} users={users || []} />
+      {error ? (
+        <Typography.Text type={'danger'}>{error.message}</Typography.Text>
+      ) : null}
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }
