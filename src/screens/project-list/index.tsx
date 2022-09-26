@@ -1,5 +1,5 @@
 import { useDebounce, useDocumentTitle } from '@/utils'
-import { useProjects } from '@/utils/useProjects'
+import { useProjects } from '@/utils/project'
 import { useUsers } from '@/utils/user'
 import styled from '@emotion/styled'
 import { Typography } from 'antd'
