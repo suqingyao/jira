@@ -21,7 +21,8 @@ export interface Project {
 
 const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject()
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin })
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({ id, pin }).then(props.refresh)
   return (
     <Table
       rowKey={'id'}

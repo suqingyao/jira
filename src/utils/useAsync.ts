@@ -21,9 +21,8 @@ export const useAsync = <D>(
   initialConfig?: typeof defaultConfig
 ) => {
   const config = { ...defaultConfig, initialConfig }
-  const [retry, setRetry] = useState(() => () => {
-    console.log(111)
-  })
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const [retry, setRetry] = useState(() => () => {})
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState
