@@ -21,6 +21,9 @@ export const useAsync = <D>(
   initialConfig?: typeof defaultConfig
 ) => {
   const config = { ...defaultConfig, initialConfig }
+  const [retry, setRetry] = useState(() => () => {
+    console.log(111)
+  })
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState
@@ -30,10 +33,18 @@ export const useAsync = <D>(
   const setError = (error: Error) =>
     setState({ error, stat: 'error', data: null })
 
-  const run = (promise: Promise<D>) => {
+  const run = (
+    promise: Promise<D>,
+    runConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error('请传入Promise数据')
     }
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig)
+      }
+    })
     setState({ ...state, stat: 'loading' })
     return promise
       .then(data => {
@@ -57,6 +68,7 @@ export const useAsync = <D>(
     run,
     setData,
     setError,
+    retry,
     ...state
   }
 }

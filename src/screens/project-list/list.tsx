@@ -7,6 +7,7 @@ import { User } from './search-panel'
 
 interface ListProps extends TableProps<Project> {
   users: User[]
+  refresh?: () => void
 }
 
 export interface Project {
