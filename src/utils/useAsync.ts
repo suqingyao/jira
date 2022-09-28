@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useMountedRef } from '.'
 
 interface State<D> {
   error: Error | null
@@ -21,6 +22,8 @@ export const useAsync = <D>(
   initialConfig?: typeof defaultConfig
 ) => {
   const config = { ...defaultConfig, initialConfig }
+
+  const mountedRef = useMountedRef()
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const [retry, setRetry] = useState(() => () => {})
   const [state, setState] = useState<State<D>>({
@@ -47,7 +50,9 @@ export const useAsync = <D>(
     setState({ ...state, stat: 'loading' })
     return promise
       .then(data => {
-        setData(data)
+        if (mountedRef.current) {
+          setData(data)
+        }
         return data
       })
       .catch(err => {
