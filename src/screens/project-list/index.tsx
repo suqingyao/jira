@@ -1,8 +1,9 @@
+import { Row } from '@/components/lib'
 import { useDebounce, useDocumentTitle } from '@/utils'
 import { useProjects } from '@/utils/project'
 import { useUsers } from '@/utils/user'
 import styled from '@emotion/styled'
-import { Typography } from 'antd'
+import { Button, Typography } from 'antd'
 import List from './list'
 import SearchPanel from './search-panel'
 import { useProjectsSearchParams } from './util'
@@ -22,7 +23,10 @@ const ProjectListScreen = () => {
 
   return (
     <Container>
-      <h1>项目列表</h1>
+      <Row between={true}>
+        <h1>项目列表</h1>
+        <Button>创建项目</Button>
+      </Row>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       {error ? (
         <Typography.Text type={'danger'}>{error.message}</Typography.Text>

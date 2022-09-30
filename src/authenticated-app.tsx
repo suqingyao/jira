@@ -2,9 +2,12 @@ import SoftwareLogo from '@/assets/software-logo.svg'
 import RouteView from '@/router'
 import styled from '@emotion/styled'
 import { Button, Dropdown, Menu } from 'antd'
+import { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { Row } from './components/lib'
+import { ButtonNoPadding, Row } from './components/lib'
+import ProjectPopover from './components/project-popover'
 import { useAuth } from './context/auth-context'
+import ProjectModal from './screens/project-list/project-modal'
 import { resetRoute, useDocumentTitle } from './utils'
 
 // ! 将logo作为react组件使用
@@ -12,52 +15,68 @@ import { resetRoute, useDocumentTitle } from './utils'
 
 function AuthenticatedApp() {
   useDocumentTitle('项目任务列表')
+  const [projectModalOpen, setProjectModalOpen] = useState(false)
 
   return (
     <Container>
-      <PageHeader />
+      <PageHeader setProjectModalOpen={setProjectModalOpen} />
       <Main>
         <BrowserRouter>
           <RouteView />
         </BrowserRouter>
       </Main>
+      <ProjectModal
+        projectModalOpen={projectModalOpen}
+        onClose={() => setProjectModalOpen(false)}
+      />
     </Container>
   )
 }
 
-const PageHeader = () => {
-  const { logout, user } = useAuth()
+interface PageHeaderProps {
+  setProjectModalOpen: (isOpen: boolean) => void
+}
 
-  const menu = (
-    <Menu
-      items={[
-        {
-          key: '1',
-          label: (
-            <Button type={'link'} onClick={logout}>
-              登出
-            </Button>
-          )
-        }
-      ]}
-    ></Menu>
-  )
+const PageHeader = ({ setProjectModalOpen }: PageHeaderProps) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         {/* <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} /> */}
-        <Button type={'link'} onClick={resetRoute}>
+        <ButtonNoPadding type={'link'} onClick={resetRoute}>
           <img src={SoftwareLogo} alt="Logo" width={'180rem'} />
-        </Button>
-        <h3>项目</h3>
-        <h3>用户</h3>
+        </ButtonNoPadding>
+        <ProjectPopover />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
-        <Dropdown overlay={menu}>
-          <Button type={'text'}>hi,{user.name}</Button>
-        </Dropdown>
+        <User />
       </HeaderRight>
     </Header>
+  )
+}
+
+const User = () => {
+  const { logout, user } = useAuth()
+
+  return (
+    <Dropdown
+      overlay={
+        <Menu
+          items={[
+            {
+              key: '1',
+              label: (
+                <Button type={'link'} onClick={logout}>
+                  登出
+                </Button>
+              )
+            }
+          ]}
+        ></Menu>
+      }
+    >
+      <Button type={'text'}>hi,{user.name}</Button>
+    </Dropdown>
   )
 }
 
