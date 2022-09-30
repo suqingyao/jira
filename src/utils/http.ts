@@ -1,5 +1,6 @@
 import * as auth from '@/auth-provider'
 import qs from 'qs'
+import { useCallback } from 'react'
 import { useAuth } from './../context/auth-context'
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -44,6 +45,9 @@ export const http = async (
 
 export const useHttp = () => {
   const { user } = useAuth()
-  return (...[endpoint, config]: Parameters<typeof http>) =>
-    http(endpoint, { ...config, token: user?.token })
+  return useCallback(
+    (...[endpoint, config]: Parameters<typeof http>) =>
+      http(endpoint, { ...config, token: user?.token }),
+    [user?.token]
+  )
 }

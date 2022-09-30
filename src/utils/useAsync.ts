@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useMountedRef } from '.'
 
 interface State<D> {
@@ -30,39 +30,44 @@ export const useAsync = <D>(
     ...defaultInitialState,
     ...initialState
   })
-  const setData = (data: D) => setState({ data, stat: 'success', error: null })
+  const setData = useCallback(
+    (data: D) => setState({ data, stat: 'success', error: null }),
+    []
+  )
 
-  const setError = (error: Error) =>
-    setState({ error, stat: 'error', data: null })
+  const setError = useCallback(
+    (error: Error) => setState({ error, stat: 'error', data: null }),
+    []
+  )
 
-  const run = (
-    promise: Promise<D>,
-    runConfig?: { retry: () => Promise<D> }
-  ) => {
-    if (!promise || !promise.then) {
-      throw new Error('请传入Promise数据')
-    }
-    setRetry(() => () => {
-      if (runConfig?.retry) {
-        run(runConfig?.retry(), runConfig)
+  const run = useCallback(
+    (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
+      if (!promise || !promise.then) {
+        throw new Error('请传入Promise数据')
       }
-    })
-    setState({ ...state, stat: 'loading' })
-    return promise
-      .then(data => {
-        if (mountedRef.current) {
-          setData(data)
+      setRetry(() => () => {
+        if (runConfig?.retry) {
+          run(runConfig?.retry(), runConfig)
         }
-        return data
       })
-      .catch(err => {
-        setError(err)
-        if (config.throwOnError) {
-          return Promise.reject(err)
-        }
-        return err
-      })
-  }
+      setState(preState => ({ ...preState, stat: 'loading' }))
+      return promise
+        .then(data => {
+          if (mountedRef.current) {
+            setData(data)
+          }
+          return data
+        })
+        .catch(err => {
+          setError(err)
+          if (config.throwOnError) {
+            return Promise.reject(err)
+          }
+          return err
+        })
+    },
+    [config.throwOnError, mountedRef, setData, setError]
+  )
 
   return {
     isIdle: state.stat === 'idle',
