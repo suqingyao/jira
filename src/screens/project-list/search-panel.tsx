@@ -16,7 +16,7 @@ export interface User {
   token: string
 }
 
-const SearchPanel = ({ param, setParam, users }: SearchPanelProps) => {
+const SearchPanel = ({ param, setParam }: SearchPanelProps) => {
   return (
     <Form layout={'inline'} style={{ marginBottom: '2rem' }}>
       <Form.Item>

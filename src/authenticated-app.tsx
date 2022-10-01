@@ -2,7 +2,6 @@ import SoftwareLogo from '@/assets/software-logo.svg'
 import RouteView from '@/router'
 import styled from '@emotion/styled'
 import { Button, Dropdown, Menu } from 'antd'
-import { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { ButtonNoPadding, Row } from './components/lib'
 import ProjectPopover from './components/project-popover'
@@ -15,29 +14,21 @@ import { resetRoute, useDocumentTitle } from './utils'
 
 function AuthenticatedApp() {
   useDocumentTitle('项目任务列表')
-  const [projectModalOpen, setProjectModalOpen] = useState(false)
 
   return (
     <Container>
-      <PageHeader setProjectModalOpen={setProjectModalOpen} />
-      <Main>
-        <BrowserRouter>
+      <BrowserRouter>
+        <PageHeader />
+        <Main>
           <RouteView />
-        </BrowserRouter>
-      </Main>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => setProjectModalOpen(false)}
-      />
+        </Main>
+        <ProjectModal />
+      </BrowserRouter>
     </Container>
   )
 }
 
-interface PageHeaderProps {
-  setProjectModalOpen: (isOpen: boolean) => void
-}
-
-const PageHeader = ({ setProjectModalOpen }: PageHeaderProps) => {
+const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
