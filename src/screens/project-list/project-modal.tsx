@@ -5,14 +5,18 @@ import styled from '@emotion/styled'
 import { Button, Drawer, Form, Input, Spin } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { useEffect } from 'react'
-import { useProjectModal } from './util'
+import { useProjectModal, useProjectsQueryKey } from './util'
 
 const ProjectModal = () => {
   const { close, projectModalOpen, editingProject, isLoading } =
     useProjectModal()
   const useMutateProject = editingProject ? useEditProject : useAddProject
 
-  const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject()
+  const {
+    mutateAsync,
+    error,
+    isLoading: mutateLoading
+  } = useMutateProject(useProjectsQueryKey())
   const [form] = useForm()
   const onFinish = (values: any) => {
     mutateAsync({ ...editingProject, ...values }).then(() => {
