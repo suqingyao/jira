@@ -1,3 +1,4 @@
+import { ScreenContainer } from '@/components/lib'
 import { useDocumentTitle } from '@/utils'
 import { useBoards } from '@/utils/board'
 import styled from '@emotion/styled'
@@ -10,7 +11,7 @@ const BoardScreen = () => {
   const { data: currentProject } = useProjectInUrl()
   const { data: boards } = useBoards(useBoardSearchParams())
   return (
-    <div>
+    <ScreenContainer>
       <h1>{currentProject?.name}看板</h1>
       <SearchPanel />
       {boards?.map(board => (
@@ -18,7 +19,7 @@ const BoardScreen = () => {
           <BoardItem board={board} />
         </BoardItemContainer>
       ))}
-    </div>
+    </ScreenContainer>
   )
 }
 
@@ -26,6 +27,6 @@ export default BoardScreen
 
 const BoardItemContainer = styled.div`
   display: flex;
-  overflow: hidden;
-  margin-right: 2rem;
+  overflow-x: scroll;
+  flex: 1;
 `
