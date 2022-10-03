@@ -1,24 +1,16 @@
 import { ButtonNoPadding } from '@/components/lib'
 import Pin from '@/components/pin'
+import { Project } from '@/types/project'
+import { User } from '@/types/user'
 import { useDeleteProject, useEditProject } from '@/utils/project'
 import { Dropdown, Menu, Modal, Table, TableProps } from 'antd'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
-import { User } from './search-panel'
 import { useProjectModal, useProjectsQueryKey } from './util'
 
 interface ListProps extends TableProps<Project> {
   users: User[]
   refresh?: () => void
-}
-
-export interface Project {
-  id: number
-  name: string
-  personId: number
-  pin: boolean
-  organization: string
-  created: number
 }
 
 const List = ({ users, ...props }: ListProps) => {
@@ -43,7 +35,11 @@ const List = ({ users, ...props }: ListProps) => {
           title: '名称',
           sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
-            return <Link to={`${project.id}`}>{project.name}</Link>
+            return (
+              <Link to={`${project.id}`} replace={true}>
+                {project.name}
+              </Link>
+            )
           }
         },
         {

@@ -1,4 +1,4 @@
-import { Project } from '@/screens/project-list/list'
+import { Project } from '@/types/project'
 import { QueryKey, useMutation, useQuery } from 'react-query'
 import { useHttp } from './http'
 import {
@@ -9,7 +9,9 @@ import {
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp()
-  return useQuery(['project', param], () => client('projects', { data: param }))
+  return useQuery<Project[]>(['project', param], () =>
+    client('projects', { data: param })
+  )
 }
 
 export const useEditProject = (queryKey: QueryKey) => {

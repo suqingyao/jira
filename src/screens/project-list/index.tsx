@@ -12,12 +12,7 @@ const ProjectListScreen = () => {
   const [param, setParam] = useProjectsSearchParams()
 
   const { open } = useProjectModal()
-  const {
-    isLoading,
-    error,
-    data: list,
-    retry
-  } = useProjects(useDebounce(param, 500))
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 500))
 
   const { data: users } = useUsers()
 
@@ -31,12 +26,7 @@ const ProjectListScreen = () => {
       </Row>
       <SearchPanel param={param} setParam={setParam} users={users || []} />
       <ErrorBox error={error} />
-      <List
-        refresh={retry}
-        loading={isLoading}
-        dataSource={list || []}
-        users={users || []}
-      />
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }
