@@ -5,7 +5,7 @@ import { Divider, List, Popover, Typography } from 'antd'
 import { ButtonNoPadding } from './lib'
 
 const ProjectPopover = () => {
-  const { data: projects } = useProjects()
+  const { data: projects, refetch } = useProjects()
 
   const { open } = useProjectModal()
 
@@ -29,7 +29,11 @@ const ProjectPopover = () => {
   )
 
   return (
-    <Popover placement={'bottom'} content={content}>
+    <Popover
+      onOpenChange={() => refetch}
+      placement={'bottom'}
+      content={content}
+    >
       项目
     </Popover>
   )

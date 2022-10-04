@@ -5,6 +5,7 @@ import { Button, Dropdown, Menu } from 'antd'
 import { BrowserRouter } from 'react-router-dom'
 import { ButtonNoPadding, Row } from './components/lib'
 import ProjectPopover from './components/project-popover'
+import UserPopover from './components/user-popover'
 import { useAuth } from './context/auth-context'
 import ProjectModal from './screens/project-list/project-modal'
 import { resetRoute, useDocumentTitle } from './utils'
@@ -37,7 +38,7 @@ const PageHeader = () => {
           <img src={SoftwareLogo} alt="Logo" width={'180rem'} />
         </ButtonNoPadding>
         <ProjectPopover />
-        <span>用户</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <User />

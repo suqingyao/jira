@@ -1,7 +1,7 @@
 import BoardScreen from '@/screens/board'
+import TaskScreen from '@/screens/epic'
 import ProjectScreen from '@/screens/project'
 import ProjectListScreen from '@/screens/project-list'
-import TaskScreen from '@/screens/task'
 import { Navigate, RouteObject, useRoutes } from 'react-router'
 
 export const routes: RouteObject[] = [

@@ -1,10 +1,12 @@
 import { Task } from '@/types/task'
 import { QueryKey, useMutation, useQuery } from 'react-query'
+import { SortProps } from './board'
 import { useHttp } from './http'
 import {
   useAddConfig,
   useDeleteConfig,
-  useEditConfig
+  useEditConfig,
+  useReorderTaskConfig
 } from './use-optimistic-options'
 
 export const useTasks = (param?: Partial<Task>) => {
@@ -54,4 +56,16 @@ export const useTask = (id?: number) => {
   return useQuery<Task>(['task', { id }], () => client(`tasks/${id}`), {
     enabled: !!id
   })
+}
+
+export const useReorderTask = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation(
+    (params: SortProps) =>
+      client('tasks/reorder', {
+        data: params,
+        method: 'POST'
+      }),
+    useReorderTaskConfig(queryKey)
+  )
 }

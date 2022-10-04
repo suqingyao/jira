@@ -1,4 +1,6 @@
+import { Task } from '@/types/task'
 import { QueryKey, useQueryClient } from 'react-query'
+import { reorder } from './reorder'
 export const useConfig = (
   queryKey: QueryKey,
   callback: (target: any, old?: any[]) => any[]
@@ -38,3 +40,14 @@ export const useEditConfig = (queryKey: QueryKey) =>
 
 export const useAddConfig = (queryKey: QueryKey) =>
   useConfig(queryKey, (target, old) => (old ? [...old, target] : []))
+
+export const useReorderBoardConfig = (queryKey: QueryKey) =>
+  useConfig(queryKey, (target, old) => reorder({ list: old, ...target }))
+
+export const useReorderTaskConfig = (queryKey: QueryKey) =>
+  useConfig(queryKey, (target, old) => {
+    const orderList = reorder({ list: old, ...target }) as Task[]
+    return orderList.map((item: Task) =>
+      item.id === target.fromId ? { ...item, boardId: target.toBoardId } : item
+    )
+  })

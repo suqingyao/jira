@@ -1,5 +1,6 @@
 import bugIcon from '@/assets/bug.svg'
 import taskIcon from '@/assets/task.svg'
+import Drop, { Drag, DropChild } from '@/components/drag-and-drop'
 import { Row } from '@/components/lib'
 import Mark from '@/components/mark'
 import { Board } from '@/types/board'
@@ -9,6 +10,7 @@ import { useTasks } from '@/utils/task'
 import { useTaskTypes } from '@/utils/task-type'
 import styled from '@emotion/styled'
 import { Button, Card, Dropdown, Menu, Modal } from 'antd'
+import React from 'react'
 import CreateTask from './create-task'
 import { useBoardsQueryKey, useTaskSearchParams, useTasksModal } from './util'
 
@@ -66,24 +68,44 @@ const More = ({ board }: { board: Board }) => {
   )
 }
 
-const BoardItem = ({ board }: { board: Board }) => {
-  const { data: allTasks } = useTasks(useTaskSearchParams())
-  const tasks = allTasks?.filter(task => task.boardId === board.id)
-  return (
-    <Container>
-      <Row between={true}>
-        <h3>{board.name}</h3>
-        <More board={board} />
-      </Row>
-      <TasksContainer>
-        {tasks?.map(task => (
-          <TaskCard task={task} key={task.id} />
-        ))}
-        <CreateTask boardId={board.id} />
-      </TasksContainer>
-    </Container>
-  )
-}
+const BoardItem = React.forwardRef<HTMLDivElement, { board: Board }>(
+  ({ board, ...props }, ref) => {
+    const { data: allTasks } = useTasks(useTaskSearchParams())
+    const tasks = allTasks?.filter(task => task.boardId === board.id)
+    return (
+      <Container ref={ref} {...props}>
+        <Row between={true}>
+          <h3>{board.name}</h3>
+          <More board={board} key={board.id} />
+        </Row>
+        <TasksContainer>
+          <Drop
+            type={'ROW'}
+            direction={'vertical'}
+            droppableId={String(board.id)}
+          >
+            <DropChild style={{ minHeight: '5px' }}>
+              {tasks?.map((task, taskIndex) => (
+                <Drag
+                  key={task.id}
+                  index={taskIndex}
+                  draggableId={`task${task.id}`}
+                >
+                  <div ref={ref}>
+                    <TaskCard task={task} key={task.id} />
+                  </div>
+                </Drag>
+              ))}
+            </DropChild>
+
+            <CreateTask boardId={board.id} />
+          </Drop>
+        </TasksContainer>
+      </Container>
+    )
+  }
+)
+BoardItem.displayName = 'BoardItem'
 
 export default BoardItem
 

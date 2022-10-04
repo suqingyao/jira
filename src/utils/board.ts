@@ -1,7 +1,11 @@
 import { Board } from '@/types/board'
 import { QueryKey, useMutation, useQuery } from 'react-query'
 import { useHttp } from './http'
-import { useAddConfig, useDeleteConfig } from './use-optimistic-options'
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useReorderBoardConfig
+} from './use-optimistic-options'
 
 export const useBoards = (param?: Partial<Board>) => {
   const client = useHttp()
@@ -30,5 +34,24 @@ export const useDeleteBoard = (queryKey: QueryKey) => {
         method: 'DELETE'
       }),
     useDeleteConfig(queryKey)
+  )
+}
+
+export interface SortProps {
+  fromId: number
+  referenceId: number
+  type: 'before' | 'after'
+  fromBoardId?: number
+  toBoardId?: number
+}
+export const useReorderBoard = (queryKey: QueryKey) => {
+  const client = useHttp()
+  return useMutation(
+    (params: SortProps) =>
+      client('boards/reorder', {
+        data: params,
+        method: 'POST'
+      }),
+    useReorderBoardConfig(queryKey)
   )
 }
