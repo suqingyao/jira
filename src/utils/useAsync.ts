@@ -1,14 +1,21 @@
 import { useCallback, useReducer, useState } from 'react'
 import { useMountedRef } from '.'
 
+export enum Stat {
+  IDLE,
+  LOADING,
+  ERROR,
+  SUCCESS
+}
+
 interface State<D> {
   error: Error | null
   data: D | null
-  stat: 'idle' | 'loading' | 'error' | 'success'
+  stat: Stat
 }
 
 const defaultInitialState: State<null> = {
-  stat: 'idle',
+  stat: Stat.IDLE,
   data: null,
   error: null
 }
@@ -29,9 +36,9 @@ export const useAsync = <D>(
   initialState?: State<D>,
   initialConfig?: typeof defaultConfig
 ) => {
-  const config = { ...defaultConfig, initialConfig }
+  const config = { ...defaultConfig, ...initialConfig }
   const [state, dispatch] = useReducer(
-    (state: State<D>, action: Partial<State<D>>) => ({ ...state, action }),
+    (state: State<D>, action: Partial<State<D>>) => ({ ...state, ...action }),
     {
       ...defaultInitialState,
       ...initialState
@@ -42,12 +49,12 @@ export const useAsync = <D>(
   const [retry, setRetry] = useState(() => () => {})
 
   const setData = useCallback(
-    (data: D) => safeDispatch({ data, stat: 'success', error: null }),
+    (data: D) => safeDispatch({ data, stat: Stat.SUCCESS, error: null }),
     [safeDispatch]
   )
 
   const setError = useCallback(
-    (error: Error) => safeDispatch({ error, stat: 'error', data: null }),
+    (error: Error) => safeDispatch({ error, stat: Stat.ERROR, data: null }),
     [safeDispatch]
   )
 
@@ -61,7 +68,7 @@ export const useAsync = <D>(
           run(runConfig?.retry(), runConfig)
         }
       })
-      safeDispatch({ stat: 'loading' })
+      safeDispatch({ stat: Stat.LOADING })
       return promise
         .then(data => {
           setData(data)
@@ -79,10 +86,10 @@ export const useAsync = <D>(
   )
 
   return {
-    isIdle: state.stat === 'idle',
-    isLoading: state.stat === 'loading',
-    isError: state.stat === 'error',
-    isSuccess: state.stat === 'success',
+    isIdle: state.stat === Stat.IDLE,
+    isLoading: state.stat === Stat.LOADING,
+    isError: state.stat === Stat.ERROR,
+    isSuccess: state.stat === Stat.SUCCESS,
     run,
     setData,
     setError,
