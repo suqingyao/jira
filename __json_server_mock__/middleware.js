@@ -1,6 +1,6 @@
 module.exports = (req, res, next) => {
   if (req.method === 'POST' && req.path === '/login') {
-    if (req.body.username === 'jack' && req.body.password === '123456') {
+    if (req.body.username === 'saber' && req.body.password === '1234') {
       console.log('😁')
       return res.status(200).json({
         user: {
@@ -24,7 +24,7 @@ module.exports = (req, res, next) => {
   if (req.method === 'POST' && req.path === '/register') {
     return res.status(200).json({
       user: {
-        name: 'saber'
+        name: req.body.username
       }
     })
   }

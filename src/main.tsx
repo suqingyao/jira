@@ -11,10 +11,10 @@ const queryClient = new QueryClient()
 
 root.render(
   <React.StrictMode>
-    <AppProviders>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AppProviders>
         <App />
-      </QueryClientProvider>
-    </AppProviders>
+      </AppProviders>
+    </QueryClientProvider>
   </React.StrictMode>
 )
