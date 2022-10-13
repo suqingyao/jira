@@ -1,4 +1,4 @@
-import SoftwareLogo from '@/assets/software-logo.svg'
+import { ReactComponent as SoftwareLogo } from '@/assets/software-logo.svg'
 import RouteView from '@/router'
 import styled from '@emotion/styled'
 import { Button, Dropdown, Menu } from 'antd'
@@ -9,9 +9,6 @@ import UserPopover from './components/user-popover'
 import { useAuth } from './context/auth-context'
 import ProjectModal from './screens/project-list/project-modal'
 import { resetRoute, useDocumentTitle } from './utils'
-
-// ! 将logo作为react组件使用
-// import { ReactComponent as SoftwareLogo } from '@/assets/software-logo.svg'
 
 function AuthenticatedApp() {
   useDocumentTitle('项目任务列表')
@@ -33,9 +30,8 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        {/* <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} /> */}
         <ButtonNoPadding type={'link'} onClick={resetRoute}>
-          <img src={SoftwareLogo} alt="Logo" width={'180rem'} />
+          <SoftwareLogo width={'18rem'} color={'rgb(38,132,255)'} />
         </ButtonNoPadding>
         <ProjectPopover />
         <UserPopover />
@@ -81,7 +77,7 @@ const Container = styled.div`
 const Header = styled(Row)`
   padding: 3.2rem;
   z-index: 1;
-  box-shadow: inset 0, 0, 5px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 `
 
 const HeaderLeft = styled(Row)``
@@ -91,6 +87,6 @@ const HeaderRight = styled.div``
 const Main = styled.main`
   display: flex;
   overflow: hidden;
-  height: calc(100vh -6rem);
+  height: calc(100vh - 6rem);
 `
 export default AuthenticatedApp
