@@ -12,6 +12,13 @@ interface AuthForm {
   password: string
 }
 
+interface AuthContext {
+  user: User | null
+  register: (form: AuthForm) => Promise<void>
+  login: (form: AuthForm) => Promise<void>
+  logout: () => Promise<void>
+}
+
 const bootstrapUser = async () => {
   let user = null
   const token = auth.getToken()
@@ -22,15 +29,7 @@ const bootstrapUser = async () => {
   return user
 }
 
-const AuthContext = createContext<
-  | {
-      user: User | null
-      register: (form: AuthForm) => Promise<void>
-      login: (form: AuthForm) => Promise<void>
-      logout: () => Promise<void>
-    }
-  | undefined
->(undefined)
+const AuthContext = createContext<AuthContext>({} as AuthContext)
 
 AuthContext.displayName = 'AuthContext'
 
@@ -74,10 +73,4 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    return Error('useAuth必须在AuthProvider中使用')
-  }
-  return context
-}
+export const useAuth = () => useContext(AuthContext)

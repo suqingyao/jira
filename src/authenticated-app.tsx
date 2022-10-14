@@ -63,7 +63,7 @@ const User = () => {
         ></Menu>
       }
     >
-      <Button type={'text'}>hi,{user.name}</Button>
+      <Button type={'text'}>hi,{user?.name}</Button>
     </Dropdown>
   )
 }

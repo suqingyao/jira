@@ -1,7 +1,7 @@
 import { useCallback, useReducer, useState } from 'react'
 import { useMountedRef } from '.'
 
-export enum Stat {
+export enum STAT {
   IDLE,
   LOADING,
   ERROR,
@@ -11,11 +11,11 @@ export enum Stat {
 interface State<D> {
   error: Error | null
   data: D | null
-  stat: Stat
+  stat: STAT
 }
 
 const defaultInitialState: State<null> = {
-  stat: Stat.IDLE,
+  stat: STAT.IDLE,
   data: null,
   error: null
 }
@@ -49,12 +49,12 @@ export const useAsync = <D>(
   const [retry, setRetry] = useState(() => () => {})
 
   const setData = useCallback(
-    (data: D) => safeDispatch({ data, stat: Stat.SUCCESS, error: null }),
+    (data: D) => safeDispatch({ data, stat: STAT.SUCCESS, error: null }),
     [safeDispatch]
   )
 
   const setError = useCallback(
-    (error: Error) => safeDispatch({ error, stat: Stat.ERROR, data: null }),
+    (error: Error) => safeDispatch({ error, stat: STAT.ERROR, data: null }),
     [safeDispatch]
   )
 
@@ -68,7 +68,7 @@ export const useAsync = <D>(
           run(runConfig?.retry(), runConfig)
         }
       })
-      safeDispatch({ stat: Stat.LOADING })
+      safeDispatch({ stat: STAT.LOADING })
       return promise
         .then(data => {
           setData(data)
@@ -86,10 +86,10 @@ export const useAsync = <D>(
   )
 
   return {
-    isIdle: state.stat === Stat.IDLE,
-    isLoading: state.stat === Stat.LOADING,
-    isError: state.stat === Stat.ERROR,
-    isSuccess: state.stat === Stat.SUCCESS,
+    isIdle: state.stat === STAT.IDLE,
+    isLoading: state.stat === STAT.LOADING,
+    isError: state.stat === STAT.ERROR,
+    isSuccess: state.stat === STAT.SUCCESS,
     run,
     setData,
     setError,

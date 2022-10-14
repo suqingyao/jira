@@ -62,7 +62,7 @@ const Background = styled.div`
   background-attachment: fixed;
   background-position: left bottom, right bottom;
   background-size: calc(((100vw - 40rem) / 2) - 3.2rem),
-    calc(((100vw - 40rem) / 2) - 3.2rem) cover;
+    calc(((100vw - 40rem) / 2) - 3.2rem), cover;
   background-image: url(${Left}), url(${Right});
 `
 
