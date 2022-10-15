@@ -1,7 +1,7 @@
 import { useCallback, useReducer, useState } from 'react'
 import { useMountedRef } from '.'
 
-export enum STAT {
+export const enum STAT {
   IDLE,
   LOADING,
   ERROR,
