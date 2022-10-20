@@ -1,7 +1,7 @@
 import * as auth from '@/auth-provider'
 import qs from 'qs'
 import { useCallback } from 'react'
-import { useAuth } from './../context/auth-context'
+import { useAuth } from '@/context/auth-context'
 
 const API_URL = import.meta.env.VITE_API_URL
 
